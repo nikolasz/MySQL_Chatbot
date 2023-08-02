@@ -14,14 +14,8 @@ def generate_sql_query(schema, query, command):
 
     return generate_response(messages)
 
-def generate_mysql_query(schema, query):
-    if 'select' in query.lower():
-        return generate_sql_query(schema, query, 'select')
-    elif 'insert' in query.lower():
-        return generate_sql_query(schema, query, 'insert')
-    elif 'update' in query.lower():
-        return generate_sql_query(schema, query, 'update')
-    elif 'delete' in query.lower():
-        return generate_sql_query(schema, query, 'delete')
+def generate_mysql_query(schema, query, command):
+    if command.lower() in ['select', 'insert', 'update', 'delete']:
+        return generate_sql_query(schema, query, command)
     else:
         return 'error'

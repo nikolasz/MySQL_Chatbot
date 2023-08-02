@@ -1,22 +1,14 @@
 # main.py
 from config import load_config
 from schema import load_schema
-from openai_api import init_openai_api, send_message
-from query_generator import generate_mysql_query
-from schema import load_schema_from_file
+from openai_api import init_openai_api
 from query_generator import generate_mysql_query
 from database import create_connection, execute_query, close_connection
-import openai_api
-
-schema = load_schema('path/to/schema.json')
 
 def main():
     # Load config and schema.
     config = load_config()
-    schema = load_schema_from_file("schema.json")
-
-    # Initialize OpenAI API.
-    init_openai_api(config['OPENAI_API_KEY'])
+    schema = load_schema("schema.json")
 
     # Generate SQL query.
     query = input("Enter a natural language prompt: ")
@@ -24,10 +16,16 @@ def main():
 
     print(sql_query)
 
-    cnx = create_connection()
-    result = execute_query(cnx, sql_query)
-    close_connection(cnx)
-    print(result)
+    cnx = None
+    try:
+        cnx = create_connection()
+        result = execute_query(cnx, sql_query)
+        print(result)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        if cnx:
+            close_connection(cnx)
 
 if __name__ == '__main__':
     main()
