@@ -12,8 +12,8 @@ def main():
 
     # Load config and schema.
     config = load_config()
-    schema_file = "schema.json"  # This could be an input or configuration
-    schema = load_schema(schema_file)
+    schema_file = "schema.json"
+    db_schema = load_schema(schema_file)
 
     # Generate SQL query.
     query = input("Enter a natural language prompt: ")
