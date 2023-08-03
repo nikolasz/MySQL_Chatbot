@@ -1,14 +1,13 @@
-# main.py
 import os
 import sys
 import json
 sys.path.insert(0, os.path.abspath('modules'))
 
-from modules.config import load_config
-from modules.schema import load_schema
-from modules.openai_api import init_openai_api
-from modules.query_generator import generate_sql_query
-from modules.database import create_connection, execute_query, close_connection
+from config import load_config
+from schema import load_schema
+from openai_api import init_openai_api
+from query_generator import generate_sql_query
+from database import create_connection, execute_query, close_connection
 import logging
 
 def main():
@@ -25,18 +24,8 @@ def main():
         sql_commands = json.load(f)
 
     # Load schema
-    try:
-        schema_path = os.path.join(current_directory, 'schema.json')
-        with open(schema_path, 'r') as f:
-            schema = json.load(f)
-        print(f'Schema loaded: {json.dumps(schema, indent=4)}')
-    except FileNotFoundError:
-        logging.error(f"Schema file {schema_path} does not exist.")
-        schema = None
-    except Exception as e:
-        logging.error("Exception occurred", exc_info=True)
-        schema = None
-        
+    schema = load_schema(os.path.join(current_directory, 'modules', 'schema.json'))
+
     # Generate SQL query.
     query = input("Enter a natural language prompt: ")
 
