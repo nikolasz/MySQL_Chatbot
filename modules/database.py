@@ -1,5 +1,4 @@
-# database.py
-import mysql.connector
+# import mysql.connector
 from config import get_db_config
 
 def create_connection():
@@ -11,7 +10,7 @@ def create_connection():
             return cnx
     except Error as e:
         print(f"The error '{e}' occurred.")
-
+pass
 def execute_query(cnx, query, params=None):
     """
     Execute a query on the database.

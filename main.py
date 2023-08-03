@@ -1,9 +1,14 @@
 # main.py
-from config import load_config
-from schema import load_schema
-from openai_api import init_openai_api
-from query_generator import generate_mysql_query
-from database import create_connection, execute_query, close_connection
+import os
+import sys
+import json
+sys.path.insert(0, os.path.abspath('modules'))
+
+from modules.config import load_config
+from modules.schema import load_schema
+from modules.openai_api import init_openai_api
+from modules.query_generator import generate_sql_query
+from modules.database import create_connection, execute_query, close_connection
 import logging
 
 def main():
@@ -12,15 +17,29 @@ def main():
 
     # Load config and schema.
     config = load_config()
-    schema_file = "schema.json"
-    db_schema = load_schema(schema_file)
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Load SQL commands
+    sql_commands_path = os.path.join(current_directory, 'sql_commands.json')
+    with open(sql_commands_path, 'r') as f:
+        sql_commands = json.load(f)
+
+    # Load schema
+    schema = {}
+    try:
+        schema_path = os.path.join(current_directory, 'schema.json')
+        with open(schema_path, 'r') as f:
+            schema = json.load(f)
+    except Exception as e:
+        logging.error("Exception occurred", exc_info=True)
 
     # Generate SQL query.
     query = input("Enter a natural language prompt: ")
 
     cnx = None
+
     try:
-        sql_query = generate_mysql_query(schema, query)
+        sql_query = generate_sql_query(schema, query, sql_commands)
         print(sql_query)
 
         cnx = create_connection()

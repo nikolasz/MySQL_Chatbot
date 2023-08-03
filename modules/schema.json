@@ -1,1 +1,21 @@
-hello world
+{
+    "tables": {
+        "users": {
+            "columns": {
+                "id": {
+                    "type": "integer",
+                    "nullable": false,
+                    "primary_key": true
+                },
+                "name": {
+                    "type": "string",
+                    "nullable": false
+                },
+                "email": {
+                    "type": "string",
+                    "nullable": true
+                }
+            }
+        }
+    }
+}
