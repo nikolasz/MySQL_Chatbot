@@ -30,6 +30,8 @@ def main():
         schema_path = os.path.join(current_directory, 'schema.json')
         with open(schema_path, 'r') as f:
             schema = json.load(f)
+        print(f'Schema loaded: {json.dumps(schema, indent=4)}')
+
     except Exception as e:
         logging.error("Exception occurred", exc_info=True)
 
