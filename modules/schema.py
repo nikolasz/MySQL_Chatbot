@@ -11,7 +11,7 @@ def load_schema(schema_file='schema.json'):
     try:
         with open(schema_path, 'r') as file:
             schema = json.load(file)
-            print(f'Schema loaded: {json.dumps(schema, indent=4)}')
+            # print(f'Schema loaded: {json.dumps(schema, indent=4)}')
             return schema
     except json.JSONDecodeError:
         logging.warning(f"Schema file {schema_file} is not a valid JSON file.")
