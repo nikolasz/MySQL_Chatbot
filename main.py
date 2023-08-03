@@ -25,16 +25,18 @@ def main():
         sql_commands = json.load(f)
 
     # Load schema
-    schema = {}
     try:
         schema_path = os.path.join(current_directory, 'schema.json')
         with open(schema_path, 'r') as f:
             schema = json.load(f)
         print(f'Schema loaded: {json.dumps(schema, indent=4)}')
-
+    except FileNotFoundError:
+        logging.error(f"Schema file {schema_path} does not exist.")
+        schema = None
     except Exception as e:
         logging.error("Exception occurred", exc_info=True)
-
+        schema = None
+        
     # Generate SQL query.
     query = input("Enter a natural language prompt: ")
 
