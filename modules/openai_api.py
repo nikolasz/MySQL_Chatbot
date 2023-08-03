@@ -6,7 +6,7 @@ def init_openai_api():
     openai.api_key = get_openai_api_key()
 
 def generate_response(messages):
-    """
+
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=messages,

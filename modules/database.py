@@ -1,25 +1,16 @@
 # database.py
 import mysql.connector
+from config import get_db_config
 
 def create_connection():
-    """
-    Create a connection to the database.
-
-    Returns:
-        obj: The connection object.
-    """
-    config = {
-        'user': '<your-database-user>',
-        'password': '<your-database-password>',
-        'host': '<your-database-host>',
-        'database': '<your-database>',
-        'raise_on_warnings': True
-    }
-
-    cnx = mysql.connector.connect(**config)
-
-    return cnx
-
+    db_config = get_db_config()
+    try:
+        cnx = mysql.connector.connect(user=db_config['user'], password=db_config['password'], host=db_config['host'], database=db_config['database'])
+        if cnx.is_connected():
+            print("Successfully connected to the database.")
+            return cnx
+    except Error as e:
+        print(f"The error '{e}' occurred.")
 
 def execute_query(cnx, query, params=None):
     """
